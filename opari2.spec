@@ -1,6 +1,6 @@
 Name:           opari2
-Version:        1.1.2
-Release:        6%{?dist}
+Version:        1.1.3
+Release:        1%{?dist}
 Summary:        An OpenMP runtime performance measurement instrumenter
 
 License:        BSD
@@ -57,6 +57,9 @@ make check
 
 
 %changelog
+* Fri May 8 2015 Orion Poplawski <orion@cora.nwra.com> - 1.1.2-7
+- Update to 1.1.3
+
 * Sat May 02 2015 Kalev Lember <kalevlember@gmail.com> - 1.1.2-6
 - Rebuilt for GCC 5 C++11 ABI change
 
