@@ -1,6 +1,6 @@
 Name:           opari2
 Version:        1.1.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An OpenMP runtime performance measurement instrumenter
 
 License:        BSD
@@ -57,6 +57,9 @@ make check
 
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Fri Jun 19 2015 Orion Poplawski <orion@cora.nwra.com> - 1.1.4-7
 - Update to 1.1.4
 
