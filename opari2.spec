@@ -1,10 +1,10 @@
 %global shortname opari2
-%global ver 1.1.4
+%global ver 2.0
 %?altcc_init
 
 Name:           %{shortname}%{?altcc_pkg_suffix}
 Version:        %{ver}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        An OpenMP runtime performance measurement instrumenter
 
 License:        BSD
@@ -42,9 +42,10 @@ make %{?_smp_mflags}
 find %{buildroot} -name '*.la' -delete -print
 find %{buildroot}%{_defaultdocdir}/%{shortname}/example* -name '*.a' -delete -print
 # Avoid duplicated filelist with %%doc
-cp -p AUTHORS ChangeLog COPYING README %{buildroot}%{_defaultdocdir}/%{shortname}/
+cp -p AUTHORS ChangeLog README %{buildroot}%{_defaultdocdir}/%{shortname}/
 
 %{?altcc:%altcc_doc}
+%{?altcc:%altcc_license}
 %{?altcc:%altcc_writemodule %SOURCE1}
 
 
@@ -52,13 +53,9 @@ cp -p AUTHORS ChangeLog COPYING README %{buildroot}%{_defaultdocdir}/%{shortname
 make check
 
 
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
-
-
 %files
-%{?altcc:%altcc_files -dm %{_bindir} %{_libexecdir} %{_includedir}}
+%{?altcc:%altcc_files -dlm %{_bindir} %{_libexecdir} %{_includedir}}
+%license COPYING
 %{_bindir}/%{shortname}
 %{_bindir}/%{shortname}-config
 %{_libexecdir}/pomp2-parse-init-regions.awk
@@ -68,6 +65,9 @@ make check
 
 
 %changelog
+* Fri Apr 15 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0-1
+- Update to 2.0
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 

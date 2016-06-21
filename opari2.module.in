@@ -1,0 +1,12 @@
+#%Module 1.0
+#
+#  opari2 environment module
+#
+conflict	opari2
+prepend-path 	PATH 		@PREFIX@/bin
+prepend-path	MANPATH		@PREFIX@/share/man
+prepend-path 	LD_LIBRARY_PATH @PREFIX@/@LIB@
+setenv		OPARI2_DIR	@PREFIX@
+setenv		OPARI2_HOME	@PREFIX@
+setenv		OPARI2_INCLUDE	@PREFIX@/include
+setenv		OPARI2_LIB	@PREFIX@/@LIB@
