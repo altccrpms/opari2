@@ -1,47 +1,19 @@
-# AltCCRPMS
-%global _cc_name %{getenv:COMPILER_NAME}
-%global _cc_version %{getenv:COMPILER_VERSION}
-%global _cc_name_ver %{_cc_name}-%{_cc_version}
-%global _mpi_name %{getenv:MPI_NAME}
-%if "%{_mpi_name}" == ""
-%global _with_mpi 0
-%else
-%global _with_mpi 1
-%endif
-%if 0%{?_with_mpi}
-%global _mpi_version %{getenv:MPI_VERSION}
-%global _mpi_name_ver %{_mpi_name}-%{_mpi_version}
-%global _name_suffix -%{_cc_name}-%{_mpi_name}
-%global _name_ver_suffix -%{_cc_name_ver}-%{_mpi_name_ver}
-%global _prefix /opt/%{_cc_name_ver}/%{_mpi_name_ver}/%{shortname}-%{version}
-%global _modulefiledir /opt/modulefiles/MPI/%{_cc_name}/%{_cc_version}/%{_mpi_name}/%{_mpi_version}/%{shortname}
-%else
-%global _name_suffix -%{_cc_name}
-%global _name_ver_suffix -%{_cc_name_ver}
-%global _prefix /opt/%{_cc_name_ver}/%{shortname}-%{version}
-%global _modulefiledir /opt/modulefiles/Compiler/%{_cc_name}/%{_cc_version}/%{shortname}
-%endif
-%global _sysconfdir %{_prefix}/etc
-
-%undefine _missing_build_ids_terminate_build
-
 %global shortname opari2
+%global ver 1.1.4
+%?altcc_init
 
-Name:           %{shortname}-1.1.4%{_name_ver_suffix}
-Version:        1.1.4
+Name:           %{shortname}%{?altcc_pkg_suffix}
+Version:        %{ver}
 Release:        2%{?dist}
 Summary:        An OpenMP runtime performance measurement instrumenter
 
 License:        BSD
 URL:            http://www.vi-hps.org/projects/score-p/
-Source0:        http://www.vi-hps.org/upload/packages/%{name}/%{name}-%{version}.tar.gz
+Source0:        http://www.vi-hps.org/upload/packages/%{shortname}/%{shortname}-%{version}.tar.gz
+Source1:        %{shortname}.module.in
+%?altcc_reqmodules
+%?altcc_provide
 
-# AltCCRPMS
-Requires:       environment(modules)
-Provides:       %{shortname}%{_name_suffix} = %{version}-%{release}
-Provides:       %{shortname}%{_name_suffix}%{?_isa} = %{version}-%{release}
-Provides:       %{shortname}%{_name_ver_suffix} = %{version}-%{release}
-Provides:       %{shortname}%{_name_ver_suffix}%{?_isa} = %{version}-%{release}
 
 %description
 OPARI2 is a source-to-source instrumentation tool for OpenMP and hybrid
@@ -56,20 +28,24 @@ instrumentation of OpenMP 3.0 tied tasks.
 
 
 %prep
-%setup -q
+%setup -q -n %{shortname}-%{version}
 
 
 %build
-%configure --disable-static --disable-silent-rules --with-platform=linux
+%configure --disable-static --disable-silent-rules --with-platform=linux \
+  %{?altcc:--with-compiler-suite=%{altcc_cc_name}}
 make %{?_smp_mflags}
 
 
 %install
 %make_install
 find %{buildroot} -name '*.la' -delete -print
-find %{buildroot}%{_defaultdocdir}/%{name}/example* -name '*.a' -delete -print
+find %{buildroot}%{_defaultdocdir}/%{shortname}/example* -name '*.a' -delete -print
 # Avoid duplicated filelist with %%doc
-cp -p AUTHORS ChangeLog COPYING README %{buildroot}%{_defaultdocdir}/%{name}/
+cp -p AUTHORS ChangeLog COPYING README %{buildroot}%{_defaultdocdir}/%{shortname}/
+
+%{?altcc:%altcc_doc}
+%{?altcc:%altcc_writemodule %SOURCE1}
 
 
 %check
@@ -82,12 +58,13 @@ make check
 
 
 %files
-%{_bindir}/%{name}
-%{_bindir}/%{name}-config
+%{?altcc:%altcc_files -dm %{_bindir} %{_libexecdir} %{_includedir}}
+%{_bindir}/%{shortname}
+%{_bindir}/%{shortname}-config
 %{_libexecdir}/pomp2-parse-init-regions.awk
-%{_includedir}/%{name}/
-%{_defaultdocdir}/%{name}/
-%{_datadir}/%{name}/
+%{_includedir}/%{shortname}/
+%{_defaultdocdir}/%{shortname}/
+%{_datadir}/%{shortname}/
 
 
 %changelog
