@@ -1,5 +1,5 @@
 Name:           opari2
-Version:        2.0
+Version:        2.0.1
 Release:        1%{?dist}
 Summary:        An OpenMP runtime performance measurement instrumenter
 
@@ -53,6 +53,9 @@ make check
 
 
 %changelog
+* Tue Sep 20 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0.1-1
+- Update to 2.0.1
+
 * Fri Apr 15 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0-1
 - Update to 2.0
 
