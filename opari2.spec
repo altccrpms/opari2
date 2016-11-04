@@ -1,12 +1,13 @@
 Name:           opari2
 Version:        2.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An OpenMP runtime performance measurement instrumenter
 
 License:        BSD
 URL:            http://www.vi-hps.org/projects/score-p/
 Source0:        http://www.vi-hps.org/upload/packages/%{name}/%{name}-%{version}.tar.gz
 
+BuildRequires:   gcc-c++
 BuildRequires:   gcc-gfortran
 
 %description
@@ -39,7 +40,7 @@ cp -p AUTHORS ChangeLog README %{buildroot}%{_defaultdocdir}/%{name}/
 
 
 %check
-make check
+make check || ( cat */test-suite.log && exit 1 )
 
 
 %files
@@ -53,6 +54,10 @@ make check
 
 
 %changelog
+* Fri Nov 4 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0.1-2
+- Add BR gcc-c++
+- Output test logs if they fail
+
 * Tue Sep 20 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0.1-1
 - Update to 2.0.1
 
