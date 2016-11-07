@@ -1,11 +1,13 @@
 Name:           opari2
 Version:        2.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An OpenMP runtime performance measurement instrumenter
 
 License:        BSD
 URL:            http://www.vi-hps.org/projects/score-p/
 Source0:        http://www.vi-hps.org/upload/packages/%{name}/%{name}-%{version}.tar.gz
+# Upstream patch to fix ppc64 builds
+Patch0:         opari2-pomp2_parse_init_regions.patch
 
 BuildRequires:   gcc-c++
 BuildRequires:   gcc-gfortran
@@ -23,7 +25,7 @@ instrumentation of OpenMP 3.0 tied tasks.
 
 
 %prep
-%setup -q
+%autosetup -p1
 
 
 %build
@@ -54,6 +56,9 @@ make check || ( cat */test-suite.log && exit 1 )
 
 
 %changelog
+* Mon Nov 7 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0.1-3
+- Add upstream patch to fix ppc64 builds
+
 * Fri Nov 4 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0.1-2
 - Add BR gcc-c++
 - Output test logs if they fail

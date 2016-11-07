@@ -1,0 +1,29 @@
+diff -up opari2-2.0.1/src/opari-lib-dummy/pomp2_parse_init_regions.awk.in.orig opari2-2.0.1/src/opari-lib-dummy/pomp2_parse_init_regions.awk.in
+--- opari2-2.0.1/src/opari-lib-dummy/pomp2_parse_init_regions.awk.in.orig	2016-09-15 05:53:24.814411120 -0600
++++ opari2-2.0.1/src/opari-lib-dummy/pomp2_parse_init_regions.awk.in	2016-11-07 11:42:09.276953518 -0700
+@@ -14,7 +14,7 @@
+ ## Copyright (c) 2009-2011,
+ ## University of Oregon, Eugene, USA
+ ##
+-## Copyright (c) 2009-2011, 2013, 2014, 2016,
++## Copyright (c) 2009-2011, 2013, 2014
+ ## Forschungszentrum Juelich GmbH, Germany
+ ##
+ ## Copyright (c) 2009-2011,
+@@ -91,14 +91,14 @@ function add_region( type_str, regions_a
+ }
+ 
+ / [_]*[Pp][Oo][Mm][Pp]2_[Ii][Nn][Ii][Tt]_[Rr][Ee][Gg]_[0-9a-zA-Z][0-9a-zA-Z]*_[1-9][0-9]*/ {
+-  if (tolower($0) ~ /pomp2_init_reg/ && $0 ~ / [TA] / )
++  if (tolower($0) ~ /pomp2_init_reg/ && $0 ~ / [TDA] / )
+   {
+       n_pomp_regions = add_region("POMP2_Init_reg", pomp_regions, n_pomp_regions)
+   }
+ }
+ 
+ / [_]*[Pp][Oo][Mm][Pp]2_[Uu][Ss][Ee][Rr]_[Ii][Nn][Ii][Tt]_[Rr][Ee][Gg]_[0-9a-zA-Z][0-9a-zA-Z]*_[1-9][0-9]*/ {
+-  if (tolower($0) ~ /pomp2_user_init_reg/ && $0 ~ / [TA] / )
++  if (tolower($0) ~ /pomp2_user_init_reg/ && $0 ~ / [TDA] / )
+   {
+       n_pomp_user_regions = add_region("POMP2_USER_Init_reg", pomp_user_regions, n_pomp_user_regions)
+   }
