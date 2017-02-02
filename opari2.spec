@@ -1,19 +1,20 @@
 %global shortname opari2
-%global ver 2.0
+%global ver 2.0.1
 %?altcc_init
 
 Name:           %{shortname}%{?altcc_pkg_suffix}
 Version:        %{ver}
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        An OpenMP runtime performance measurement instrumenter
 
 License:        BSD
 URL:            http://www.vi-hps.org/projects/score-p/
 Source0:        http://www.vi-hps.org/upload/packages/%{shortname}/%{shortname}-%{version}.tar.gz
 Source1:        %{shortname}.module.in
+# Upstream patch to fix ppc64 builds
+Patch0:         opari2-pomp2_parse_init_regions.patch
 %?altcc_reqmodules
 %?altcc_provide
-
 
 %description
 OPARI2 is a source-to-source instrumentation tool for OpenMP and hybrid
@@ -28,7 +29,7 @@ instrumentation of OpenMP 3.0 tied tasks.
 
 
 %prep
-%setup -q -n %{shortname}-%{version}
+%autosetup -p1 -n %{shortname}-%{version}
 
 
 %build
@@ -50,7 +51,7 @@ cp -p AUTHORS ChangeLog README %{buildroot}%{_defaultdocdir}/%{shortname}/
 
 
 %check
-make check
+make check || ( cat */test-suite.log && exit 1 )
 
 
 %files
@@ -65,6 +66,16 @@ make check
 
 
 %changelog
+* Mon Nov 7 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0.1-3
+- Add upstream patch to fix ppc64 builds
+
+* Fri Nov 4 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0.1-2
+- Add BR gcc-c++
+- Output test logs if they fail
+
+* Tue Sep 20 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0.1-1
+- Update to 2.0.1
+
 * Fri Apr 15 2016 Orion Poplawski <orion@cora.nwra.com> - 2.0-1
 - Update to 2.0
 
